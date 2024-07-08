@@ -12,7 +12,7 @@ import { JsonPipe } from "@angular/common";
   imports: [TuiRootModule, TuiInputModule, ReactiveFormsModule, MultipleTextFieldComponent, JsonPipe   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-    providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}]
+  providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}]
 })
 export class AppComponent {
   title = 'Task 4';

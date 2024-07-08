@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   forwardRef,
 } from '@angular/core';
@@ -13,6 +14,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { Subscription } from 'rxjs';
+import { TextFieldState } from './multiple-text-field.type';
 
 @Component({
   selector: 'app-multiple-text-field',
@@ -30,24 +33,34 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultipleTextFieldComponent
-  implements ControlValueAccessor, OnInit
+  implements ControlValueAccessor, OnInit, OnDestroy
 {
   key = new FormControl('');
   value = new FormControl('');
 
-  private onChange: (val: { key: string; value: string }) => void = () => {};
+  subscripton: Subscription = new Subscription()
+
+  private onChange: (val: TextFieldState) => void = () => {};
   private onTouched: () => void = () => {}
 
   constructor(private readonly changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.key.valueChanges.subscribe((value) => {
+    const keySubscription = this.key.valueChanges.subscribe((value) => {
       this.emitChanges();
     });
 
-    this.value.valueChanges.subscribe((value) => {
+    const valueSubscription = this.value.valueChanges.subscribe((value) => {
       this.emitChanges();
     });
+
+    this.subscripton.add(keySubscription)
+    this.subscripton.add(valueSubscription)
+  }
+
+
+  ngOnDestroy(): void {
+    this.subscripton.unsubscribe()
   }
 
   emitChanges() {
@@ -58,7 +71,7 @@ export class MultipleTextFieldComponent
     this.onChange(value);
   }
 
-  writeValue(obj: { key: string; value: string }): void {
+  writeValue(obj: TextFieldState): void {
     this.key.setValue(obj.key);
     this.value.setValue(obj.value);
 
