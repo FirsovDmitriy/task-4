@@ -5,6 +5,7 @@ import { TuiInputModule } from "@taiga-ui/kit";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { MultipleTextFieldComponent } from "./multiple-text-field/multiple-text-field.component";
 import { JsonPipe } from "@angular/common";
+import { TextFieldState } from "./multiple-text-field/multiple-text-field.type";
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent {
   title = 'Task 4';
 
   formState = new FormGroup({
-    value: new FormControl({ key: '', value: '' }),
+    value: new FormControl<TextFieldState>({['']:''}),
   })
+
 }

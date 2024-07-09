@@ -1,9 +1,10 @@
 <tui-root>
   <div class="container">
-    <form [formGroup]="formState">
+    <form class="form" [formGroup]="formState">
       <app-multiple-text-field formControlName="value" />
     </form>
-    <p  class="tui-text_body-m">Key {{ formState.value.value?.key }}</p>
-    {{ formState.value | json }}
+    <p>
+      {{ formState.value.value | json }}
+    </p>
   </div>
 </tui-root>

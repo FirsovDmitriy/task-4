@@ -1,4 +1,3 @@
-export interface TextFieldState {
-  key: string
-  value: string
+export type TextFieldState = {
+  [key: string]: string
 }

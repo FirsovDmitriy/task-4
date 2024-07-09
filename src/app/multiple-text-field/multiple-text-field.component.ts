@@ -46,13 +46,15 @@ export class MultipleTextFieldComponent
   constructor(private readonly changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    const keySubscription = this.key.valueChanges.subscribe((value) => {
-      this.emitChanges();
-    });
+    const keySubscription = this.key.valueChanges
+      .subscribe(value => {
+        this.emitChanges();
+      });
 
-    const valueSubscription = this.value.valueChanges.subscribe((value) => {
-      this.emitChanges();
-    });
+    const valueSubscription = this.value.valueChanges
+      .subscribe(value => {
+        this.emitChanges();
+      });
 
     this.subscripton.add(keySubscription)
     this.subscripton.add(valueSubscription)
@@ -64,16 +66,16 @@ export class MultipleTextFieldComponent
   }
 
   emitChanges() {
-    const value = {
-      key: this.key.value as string,
-      value: this.value.value as string,
+    const value: TextFieldState = {
+      [this.key.value as string]: this.value.value as string
     };
     this.onChange(value);
   }
 
   writeValue(obj: TextFieldState): void {
-    this.key.setValue(obj.key);
-    this.value.setValue(obj.value);
+    const key = Object.keys(obj)[0]
+    this.key.setValue(key);
+    this.value.setValue(obj[key]);
 
     this.changeDetector.detectChanges();
   }
